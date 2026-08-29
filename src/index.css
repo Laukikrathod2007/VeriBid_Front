@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-vb-navy: #0C1F4A;
+  --color-vb-navy-deep: #071230;
+  --color-vb-teal: #00C9A7;
+  --color-vb-teal-light: #4DDEC8;
+  --color-vb-green: #1A8C6E;
+  --color-vb-bg: #F5F4F1;
+  --color-vb-border: rgba(12,31,74,0.12);
+  --color-vb-pass: #16A34A;
+  --color-vb-fail: #DC2626;
+  --color-vb-review: #D97706;
+  --color-vb-unverified: #6B7280;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--color-vb-bg);
+  color: var(--color-vb-navy);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* EigenPal-style dotted grid */
+.bg-dot-grid {
+  background-image: radial-gradient(circle, rgba(12,31,74,0.12) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Subtle crosshair markers */
+.crosshair::before,
+.crosshair::after {
+  content: '+';
+  position: absolute;
+  font-size: 12px;
+  color: rgba(12,31,74,0.25);
+  font-family: monospace;
+  line-height: 1;
+}
+
+/* Teal glow for scanner */
+.teal-glow {
+  box-shadow: 0 0 20px rgba(0,201,167,0.4), 0 0 40px rgba(0,201,167,0.2);
+}
+
+/* Status badge styles */
+.badge-pass     { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.badge-fail     { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+.badge-review   { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.badge-unverified { background: #f3f4f6; color: #4b5563; border: 1px solid #d1d5db; }
+.badge-na       { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge-live     { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; }
+.badge-mock     { background: #faf5ff; color: #6b21a8; border: 1px solid #d8b4fe; }
+.badge-human    { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
+.badge-doc      { background: #f0f9ff; color: #0c4a6e; border: 1px solid #bae6fd; }
+
+/* Smooth scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-vb-bg); }
+::-webkit-scrollbar-thumb { background: rgba(12,31,74,0.2); border-radius: 3px; }
+
+/* Grid lines for sections */
+.grid-lines {
+  position: relative;
+}
+.grid-lines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-left: 1px solid rgba(12,31,74,0.08);
+  border-right: 1px solid rgba(12,31,74,0.08);
+  pointer-events: none;
+  z-index: 0;
+}
