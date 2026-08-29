@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, Split, Sparkles, CheckSquare, Copy, Check } from "lucide-react";
+import { FileText, Split, Sparkles, CheckSquare } from "lucide-react";
 
 interface Step {
   id: string;
@@ -17,17 +17,6 @@ interface Step {
 
 export function HowItWorks() {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [lang, setLang] = useState<"python" | "api">("python");
-  const [copied, setCopied] = useState(false);
-
-  const pythonCmd = "pip install veribid-python-sdk";
-  const apiCmd = "curl -X POST https://api.veribid.gov.in/v1/verify \\ \n  -H \"Authorization: Bearer $VERIBID_TOKEN\"";
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(lang === "python" ? pythonCmd : apiCmd);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const steps: Step[] = [
     {
@@ -38,7 +27,7 @@ export function HowItWorks() {
       label: "Ingest Tender PDF",
       desc: "Upload the GeM tender PDF. VeriBid's compiler reads the document layout and automatically extracts all compliance clauses using layout-aware Zone A/B/C rules.",
       link: "#",
-      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/features/Features_Layout%20Extraction_v001.webm",
+      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/Section%202/Section%202_Parse_v004.webm",
     },
     {
       id: "split",
@@ -48,7 +37,7 @@ export function HowItWorks() {
       label: "Process Vendor Bids",
       desc: "Upload vendor bid packages. VeriBid intelligently splits multi-document files and logs individual certificates for downstream extraction.",
       link: "#",
-      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/features/Features_File%20Type%20Support_v001.webm",
+      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/Section%202/Section%202_Split_v004.webm",
     },
     {
       id: "extract",
@@ -58,7 +47,7 @@ export function HowItWorks() {
       label: "13 Parallel Portal Queries",
       desc: "Retrieve verified facts directly from government source databases. Submit extracted GSTIN, PAN, and Udyam credentials to parallel API adapters in under 12 seconds.",
       link: "#",
-      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/features/Features_LLM%20optimized_v001.webm",
+      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/Section%202/Section%202_Extract_v004.webm",
     },
     {
       id: "classify",
@@ -68,7 +57,7 @@ export function HowItWorks() {
       label: "Score & Exemptions",
       desc: "Apply Startup or MSE exemptions dynamically to turnover thresholds, detect CA contradiction flags, and seal the final auditable report package.",
       link: "#",
-      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/features/Features_Language%20Support_v001.webm",
+      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/Section%202/Section%202_Classify_v002.webm",
     },
   ];
 
@@ -78,8 +67,8 @@ export function HowItWorks() {
     <section id="how-it-works" className="py-28 bg-[#fdfdfc] border-b border-neutral-200">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
         
-        {/* ── Section Header matching Reducto product style exactly ── */}
-        <div className="text-center mb-16 max-w-3xl mx-auto flex flex-col items-center">
+        {/* ── Section Header matching Reducto product style exactly (Removed code switcher) ── */}
+        <div className="text-center mb-20 max-w-3xl mx-auto flex flex-col items-center">
           <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#3B82F6] block mb-4">
             ⠿ Product
           </span>
@@ -89,42 +78,9 @@ export function HowItWorks() {
           >
             Free your decisions from document locks.
           </h2>
-          <p className="text-sm sm:text-base text-neutral-500 max-w-xl leading-relaxed mb-8">
+          <p className="text-sm sm:text-base text-neutral-500 max-w-xl leading-relaxed">
             A toolbox of flexible APIs and dashboards for all your verification needs.
           </p>
-
-          {/* Code Switcher Bar */}
-          <div className="flex items-center gap-3 bg-neutral-50 border border-neutral-200 rounded-full px-1.5 py-1 text-xs shadow-sm max-w-md w-full">
-            <div className="flex bg-neutral-200/50 rounded-full p-0.5">
-              <button
-                onClick={() => setLang("python")}
-                className={`px-4 py-1.5 rounded-full font-mono text-[10px] font-bold transition-all ${
-                  lang === "python" ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"
-                }`}
-              >
-                Python
-              </button>
-              <button
-                onClick={() => setLang("api")}
-                className={`px-4 py-1.5 rounded-full font-mono text-[10px] font-bold transition-all ${
-                  lang === "api" ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"
-                }`}
-              >
-                REST API
-              </button>
-            </div>
-            
-            <div className="flex-1 font-mono text-[10px] text-neutral-600 truncate text-left pl-2">
-              {lang === "python" ? pythonCmd : apiCmd}
-            </div>
-
-            <button
-              onClick={handleCopy}
-              className="p-2 text-neutral-400 hover:text-neutral-700 rounded transition-colors mr-1 cursor-pointer"
-            >
-              {copied ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
-            </button>
-          </div>
         </div>
 
         {/* ── Two Column Reducto Accordion Layout ── */}
