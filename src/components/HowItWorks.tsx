@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, Split, Sparkles, CheckSquare } from "lucide-react";
+import { FileText, Split, Sparkles, CheckSquare, Copy, Check } from "lucide-react";
 
 interface Step {
   id: string;
@@ -12,13 +12,22 @@ interface Step {
   label: string;
   desc: string;
   link: string;
-  illustrationType: "video" | "component";
-  videoUrl?: string;
-  component?: React.ReactNode;
+  videoUrl: string;
 }
 
 export function HowItWorks() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [lang, setLang] = useState<"python" | "api">("python");
+  const [copied, setCopied] = useState(false);
+
+  const pythonCmd = "pip install veribid-python-sdk";
+  const apiCmd = "curl -X POST https://api.veribid.gov.in/v1/verify \\ \n  -H \"Authorization: Bearer $VERIBID_TOKEN\"";
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(lang === "python" ? pythonCmd : apiCmd);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const steps: Step[] = [
     {
@@ -29,8 +38,7 @@ export function HowItWorks() {
       label: "Ingest Tender PDF",
       desc: "Upload the GeM tender PDF. VeriBid's compiler reads the document layout and automatically extracts all compliance clauses using layout-aware Zone A/B/C rules.",
       link: "#",
-      illustrationType: "video",
-      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/Section%202/Section%202_Parse_v004.webm",
+      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/features/Features_Layout%20Extraction_v001.webm",
     },
     {
       id: "split",
@@ -40,8 +48,7 @@ export function HowItWorks() {
       label: "Process Vendor Bids",
       desc: "Upload vendor bid packages. VeriBid intelligently splits multi-document files and logs individual certificates for downstream extraction.",
       link: "#",
-      illustrationType: "video",
-      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/Section%202/Section%202_Split_v002.webm", // Exact Reducto Split WebM
+      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/features/Features_File%20Type%20Support_v001.webm",
     },
     {
       id: "extract",
@@ -51,31 +58,7 @@ export function HowItWorks() {
       label: "13 Parallel Portal Queries",
       desc: "Retrieve verified facts directly from government source databases. Submit extracted GSTIN, PAN, and Udyam credentials to parallel API adapters in under 12 seconds.",
       link: "#",
-      illustrationType: "component",
-      component: (
-        <div className="w-full max-w-md bg-white border border-neutral-200 rounded-xl p-6 shadow-md space-y-3 font-mono text-[10px]">
-          <div className="flex justify-between font-bold border-b pb-2 border-neutral-100 text-[#0C1F4A]">
-            <span>PORTAL VERIFICATION QUERY</span>
-            <span>RESPONSE STATUS</span>
-          </div>
-          <div className="flex justify-between py-1.5 border-b border-neutral-50">
-            <span>GSTN Registry API</span>
-            <span className="text-green-600 font-bold">PASS (1.2s)</span>
-          </div>
-          <div className="flex justify-between py-1.5 border-b border-neutral-50">
-            <span>Udyam MSME Registry API</span>
-            <span className="text-green-600 font-bold">PASS (0.8s)</span>
-          </div>
-          <div className="flex justify-between py-1.5 border-b border-neutral-50">
-            <span>Decentro PAN Validate API</span>
-            <span className="text-green-600 font-bold">PASS (1.1s)</span>
-          </div>
-          <div className="flex justify-between py-1.5">
-            <span>CPPP Blacklist DB Query</span>
-            <span className="text-green-600 font-bold">PASS (1.4s)</span>
-          </div>
-        </div>
-      ),
+      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/features/Features_LLM%20optimized_v001.webm",
     },
     {
       id: "classify",
@@ -85,24 +68,7 @@ export function HowItWorks() {
       label: "Score & Exemptions",
       desc: "Apply Startup or MSE exemptions dynamically to turnover thresholds, detect CA contradiction flags, and seal the final auditable report package.",
       link: "#",
-      illustrationType: "component",
-      component: (
-        <div className="w-full max-w-sm bg-white border border-neutral-200 rounded-xl p-6 shadow-md space-y-4">
-          <div className="flex justify-between items-center">
-            <span className="font-bold text-xs text-[#0C1F4A]">Compliance Summary</span>
-            <span className="px-2 py-0.5 rounded bg-green-100 text-green-700 text-[10px] font-bold">LOW RISK</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="text-3xl font-mono font-extrabold text-[#0C1F4A]">89 / 100</div>
-            <div className="flex-1 h-2 bg-neutral-100 rounded-full overflow-hidden">
-              <div className="h-full bg-[#00C9A7] w-[89%]" />
-            </div>
-          </div>
-          <div className="p-3 rounded bg-amber-50 border border-amber-200 text-[10px] text-amber-700">
-            <strong>Waiver Applied:</strong> Startup exemption applied to turnover requirement. Waived.
-          </div>
-        </div>
-      ),
+      videoUrl: "https://cdn.reducto.ai/landing-page/illustrations/features/Features_Language%20Support_v001.webm",
     },
   ];
 
@@ -112,24 +78,57 @@ export function HowItWorks() {
     <section id="how-it-works" className="py-28 bg-[#fdfdfc] border-b border-neutral-200">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
         
-        {/* Section Header */}
-        <div className="mb-20">
-          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#0C1F4A]/50 block mb-4">
-            / HOW IT WORKS
+        {/* ── Section Header matching Reducto product style exactly ── */}
+        <div className="text-center mb-16 max-w-3xl mx-auto flex flex-col items-center">
+          <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#3B82F6] block mb-4">
+            ⠿ Product
           </span>
           <h2 
             style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-normal leading-none tracking-tight text-[#0C1F4A] mb-4"
+            className="text-5xl sm:text-6xl font-normal leading-tight tracking-tight text-[#0C1F4A] mb-4"
           >
-            Built to verify compliance at scale.
+            Free your decisions from document locks.
           </h2>
-          <p className="text-sm text-neutral-500 max-w-xl leading-relaxed">
-            VeriBid automates each step of the evaluation workflow using layout-aware intelligence and live government validation APIs.
+          <p className="text-sm sm:text-base text-neutral-500 max-w-xl leading-relaxed mb-8">
+            A toolbox of flexible APIs and dashboards for all your verification needs.
           </p>
+
+          {/* Code Switcher Bar */}
+          <div className="flex items-center gap-3 bg-neutral-50 border border-neutral-200 rounded-full px-1.5 py-1 text-xs shadow-sm max-w-md w-full">
+            <div className="flex bg-neutral-200/50 rounded-full p-0.5">
+              <button
+                onClick={() => setLang("python")}
+                className={`px-4 py-1.5 rounded-full font-mono text-[10px] font-bold transition-all ${
+                  lang === "python" ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"
+                }`}
+              >
+                Python
+              </button>
+              <button
+                onClick={() => setLang("api")}
+                className={`px-4 py-1.5 rounded-full font-mono text-[10px] font-bold transition-all ${
+                  lang === "api" ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"
+                }`}
+              >
+                REST API
+              </button>
+            </div>
+            
+            <div className="flex-1 font-mono text-[10px] text-neutral-600 truncate text-left pl-2">
+              {lang === "python" ? pythonCmd : apiCmd}
+            </div>
+
+            <button
+              onClick={handleCopy}
+              className="p-2 text-neutral-400 hover:text-neutral-700 rounded transition-colors mr-1 cursor-pointer"
+            >
+              {copied ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+            </button>
+          </div>
         </div>
 
         {/* ── Two Column Reducto Accordion Layout ── */}
-        <div className="grid lg:grid-cols-12 gap-16 items-start">
+        <div className="grid lg:grid-cols-12 gap-16 items-start mt-12">
           
           {/* Left Column: Interactive vertical accordion list */}
           <div className="lg:col-span-6 space-y-6">
@@ -210,28 +209,22 @@ export function HowItWorks() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.97 }}
                 transition={{ duration: 0.22, ease: "easeInOut" }}
-                className="w-full flex items-center justify-center"
+                className="w-full h-full flex items-center justify-center"
               >
-                {activeStep.illustrationType === "video" ? (
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    <video
-                      src={activeStep.videoUrl}
-                      autoPlay={true}
-                      muted={true}
-                      playsInline={true}
-                      loop={true}
-                      className="w-full max-h-[340px] object-contain rounded-xl drop-shadow-lg"
-                    />
-                    <div className="absolute top-4 left-4 bg-white/95 backdrop-blur border border-neutral-200 px-3 py-1.5 rounded-lg shadow-sm font-mono text-[9px] text-[#0C1F4A] flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#00C9A7] animate-ping" />
-                      <span>{activeStep.label}</span>
-                    </div>
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <video
+                    src={activeStep.videoUrl}
+                    autoPlay={true}
+                    muted={true}
+                    playsInline={true}
+                    loop={true}
+                    className="w-full max-h-[340px] object-contain rounded-xl drop-shadow-lg"
+                  />
+                  <div className="absolute top-4 left-4 bg-white/95 backdrop-blur border border-neutral-200 px-3 py-1.5 rounded-lg shadow-sm font-mono text-[9px] text-[#0C1F4A] flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00C9A7] animate-ping" />
+                    <span>{activeStep.label}</span>
                   </div>
-                ) : (
-                  <div className="w-full flex items-center justify-center">
-                    {activeStep.component}
-                  </div>
-                )}
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
