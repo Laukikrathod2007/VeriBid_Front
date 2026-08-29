@@ -9,7 +9,6 @@ import { FeaturesGrid } from "./components/FeaturesGrid";
 import { WorkflowComparison } from "./components/WorkflowComparison";
 import { ContradictionDetector } from "./components/ContradictionDetector";
 import { BidDocumentAnimation } from "./components/BidDocumentAnimation";
-import { EnterpriseReady } from "./components/EnterpriseReady";
 import { FAQ } from "./components/FAQ";
 import { Footer } from "./components/Footer";
 import { DocsPage } from "./components/DocsPage";
@@ -34,7 +33,6 @@ export default function App() {
         <WorkflowComparison />
         <ContradictionDetector />
         <BidDocumentAnimation />
-        <EnterpriseReady />
         <FAQ />
       </main>
       <Footer onDocsClick={() => setView("docs")} />
